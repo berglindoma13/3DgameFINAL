@@ -35,11 +35,14 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 	MeshModel model;
 
 	private Texture tex;
+
+	private float planeRotation;
 	
 	Random rand = new Random();
 
 	@Override
 	public void create () {
+		planeRotation = 0.0f;
 
 		Gdx.input.setInputProcessor(this);
 
@@ -50,7 +53,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 
 		tex = new Texture(Gdx.files.internal("core/assets/textures/phobos2k.png"));
 
-		model = G3DJModelLoader.loadG3DJFromFile("core/assets/models/f14d.g3dj");
+		model = G3DJModelLoader.loadG3DJFromFile("core/assets/models/germanColored.g3dj");
 
 		BoxGraphic.create();
 		SphereGraphic.create();
@@ -112,18 +115,20 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 		}
 
 		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-			cam.yaw(-90.0f * deltaTime);
+			//cam.yaw(-90.0f * deltaTime);
 			//cam.rotateY(90.0f * deltaTime);
+			planeRotation -= 40.0f * deltaTime;
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-			cam.yaw(90.0f * deltaTime);
+			//cam.yaw(90.0f * deltaTime);
 			//cam.rotateY(-90.0f * deltaTime);
+			planeRotation += 40.0f * deltaTime;
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
-			cam.pitch(-90.0f * deltaTime);
+			cam.pitch(90.0f * deltaTime);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-			cam.pitch(90.0f * deltaTime);
+			cam.pitch(-90.0f * deltaTime);
 		}
 
 		if(Gdx.input.isKeyPressed(Input.Keys.Q)) {
@@ -226,18 +231,21 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 			//shader.setMaterialSpecular(0.0f, 0.0f, 0.0f, 1.0f);
 			shader.setMaterialEmission(0, 0, 0, 1);
 			shader.setShininess(50.0f);
+			
 
 			ModelMatrix.main.pushMatrix();
-			ModelMatrix.main.addTranslation(0.0f, 4.0f, 0.0f);
+			ModelMatrix.main.addTranslation(cam.eye.x , cam.eye.y - 0.5f, cam.eye.z + 1.5f);
+			ModelMatrix.main.addScale(0.09f,0.09f,0.09f);
+			ModelMatrix.main.addRotationZ(planeRotation);
+			//ModelMatrix.main.addScale(0.2f,0.2f,0.2f);
 			//ModelMatrix.main.addRotation(angle, new Vector3D(1,1,1));
 			shader.setModelMatrix(ModelMatrix.main.getMatrix());
-
-			//BoxGraphic.drawSolidCube(shader, tex);
 			model.draw(shader);
 			//SphereGraphic.drawSolidSphere(shader, tex);
 
 			ModelMatrix.main.popMatrix();
-	
+
+			drawMap();
 			//drawPyramids();
 		}
 	}
@@ -249,6 +257,23 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 		//put the code inside the update and display methods, depending on the nature of the code
 		update();
 		display();
+
+	}
+
+	private void drawMap(){
+			ModelMatrix.main.pushMatrix();
+			ModelMatrix.main.addScale(0.2f,30.0f,400.0f);
+			ModelMatrix.main.addTranslation(40.0f,0.0f,0.0f);
+			shader.setModelMatrix(ModelMatrix.main.getMatrix());
+			BoxGraphic.drawSolidCube(shader, tex);
+			ModelMatrix.main.popMatrix();
+
+		ModelMatrix.main.pushMatrix();
+		ModelMatrix.main.addScale(0.2f,30.0f,400.0f);
+		ModelMatrix.main.addTranslation(-40.0f,0.0f,0.0f);
+		shader.setModelMatrix(ModelMatrix.main.getMatrix());
+		BoxGraphic.drawSolidCube(shader, tex);
+		ModelMatrix.main.popMatrix();
 
 	}
 
