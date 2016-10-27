@@ -8,14 +8,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Graphics.DisplayMode;
-import com.badlogic.gdx.assets.loaders.ModelLoader;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.TextureData;
-import com.badlogic.gdx.graphics.g3d.Model;
-import com.badlogic.gdx.graphics.g3d.loader.ObjLoader;
 import com.ru.tgra.graphics.*;
 import com.ru.tgra.graphics.shapes.*;
 import com.ru.tgra.graphics.shapes.g3djmodel.G3DJModelLoader;
@@ -36,8 +30,8 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 
 	private Texture tex;
 
-	private float planeRotation;
-	private float planetranslation;
+	private float planeRotationz;
+	private float planeRotationy;
 	private Vector3D planedirection;
 	private Plane airplane;
 
@@ -76,10 +70,11 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 		//orthoCam.orthographicProjection(-5, 5, -5, 5, 3.0f, 100);
 		topCam.perspectiveProjection(30.0f, 1, 3, 100);
 
-		planeRotation = 0.0f;
+		planeRotationz = 0.0f;
+		planeRotationy = 0.0f;
 		planedirection = new Vector3D(0.0f,0.0f,0.0f);
 
-		airplane = new Plane(0.0f,0.0f,0.0f,planedirection);
+		airplane = new Plane(cam.eye.x,cam.eye.y,cam.eye.z,planedirection);
 		//TODO: try this way to create a texture image
 		/*Pixmap pm = new Pixmap(128, 128, Format.RGBA8888);
 		for(int i = 0; i < pm.getWidth(); i++)
@@ -130,23 +125,31 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
 			//cam.yaw(-90.0f * deltaTime);
 			//cam.rotateY(90.0f * deltaTime);
-			if(planeRotation > -50.0f){
-				planeRotation -= 160.0f * deltaTime;
+			if(airplane.planerotationZ > -50.0f){
+				airplane.rotateZ(-160.0f * deltaTime);
 			}
 
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
 			//cam.yaw(90.0f * deltaTime);
 			//cam.rotateY(-90.0f * deltaTime);
-			if(planeRotation < 50.0f){
-				planeRotation += 160.0f * deltaTime;
+			if(airplane.planerotationZ < 50.0f){
+				airplane.rotateZ(160.0f * deltaTime);
+
 			}
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
-			cam.pitch(90.0f * deltaTime);
+			//cam.pitch(90.0f * deltaTime);
+			if(airplane.planerotationX > -50.0f){
+				airplane.rotateX(-160.0f*deltaTime);
+
+			}
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-			cam.pitch(-90.0f * deltaTime);
+			//cam.pitch(-90.0f * deltaTime);
+			if(airplane.planerotationX < 50.0f){
+				airplane.rotateX(160.0f * deltaTime);
+			}
 		}
 
 		if(Gdx.input.isKeyPressed(Input.Keys.Q)) {
@@ -170,14 +173,21 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 		}
 
 		else{
-			if(planeRotation > 0){
-				planeRotation -= 60.0f * deltaTime;
+			if(airplane.planerotationZ > 0){
+				airplane.rotateZ(-60.0f * deltaTime);
 			}
-			if(planeRotation < 0){
-				planeRotation += 60.0f * deltaTime;
+			if(airplane.planerotationZ < 0){
+				airplane.rotateZ(60.0f * deltaTime);
+			}
+			if(airplane.planerotationX > 0){
+				airplane.rotateX(-60.0f * deltaTime);
+			}
+			if(airplane.planerotationX< 0){
+				airplane.rotateX(60.0f * deltaTime);
 			}
 		}
 
+		airplane.position(cam.eye.x,cam.eye.y,cam.eye.z);
 		//do all updates to the game
 	}
 	
@@ -260,16 +270,11 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 			shader.setShininess(50.0f);
 
 
+			//drawing the plane
 			ModelMatrix.main.pushMatrix();
-			ModelMatrix.main.addTranslation(cam.eye.x , cam.eye.y - 0.5f, cam.eye.z + 1.5f);
-			ModelMatrix.main.addScale(0.09f,0.09f,0.09f);
-			ModelMatrix.main.addRotationZ(planeRotation);
-			//ModelMatrix.main.addScale(0.2f,0.2f,0.2f);
-			//ModelMatrix.main.addRotation(angle, new Vector3D(1,1,1));
-			shader.setModelMatrix(ModelMatrix.main.getMatrix());
+			airplane.display(shader);
 			model.draw(shader);
 			//SphereGraphic.drawSolidSphere(shader, tex);
-
 			ModelMatrix.main.popMatrix();
 
 			drawMap();
