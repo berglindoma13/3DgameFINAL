@@ -45,9 +45,9 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 
 		shader = new Shader();
 
-		tex = new Texture(Gdx.files.internal("core/assets/textures/dice.png"));
+		tex = new Texture(Gdx.files.internal("core/assets/textures/phobos2k.png"));
 
-		model = G3DJModelLoader.loadG3DJFromFile("core/assets/models/testModel.g3dj");
+		model = G3DJModelLoader.loadG3DJFromFile("core/assets/models/pleasework2.g3dj");
 
 		BoxGraphic.create();
 		SphereGraphic.create();
@@ -225,8 +225,9 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 			ModelMatrix.main.addRotation(angle, new Vector3D(1,1,1));
 			shader.setModelMatrix(ModelMatrix.main.getMatrix());
 
-			BoxGraphic.drawSolidCube(shader, tex);
-			//model.draw(shader);
+			//BoxGraphic.drawSolidCube(shader, tex);
+			model.draw(shader);
+			//SphereGraphic.drawSolidSphere(shader, tex);
 
 			ModelMatrix.main.popMatrix();
 	
