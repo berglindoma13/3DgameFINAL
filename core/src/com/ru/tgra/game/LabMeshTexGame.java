@@ -37,12 +37,19 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 	private Texture tex;
 
 	private float planeRotation;
-	
+	private float planetranslation;
+	private Vector3D planedirection;
+	private Plane airplane;
+
+	private boolean right;
+	private boolean left;
+
 	Random rand = new Random();
 
 	@Override
 	public void create () {
-		planeRotation = 0.0f;
+		right = false;
+		left = false;
 
 		Gdx.input.setInputProcessor(this);
 
@@ -69,6 +76,10 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 		//orthoCam.orthographicProjection(-5, 5, -5, 5, 3.0f, 100);
 		topCam.perspectiveProjection(30.0f, 1, 3, 100);
 
+		planeRotation = 0.0f;
+		planedirection = new Vector3D(0.0f,0.0f,0.0f);
+
+		airplane = new Plane(0.0f,0.0f,0.0f,planedirection);
 		//TODO: try this way to create a texture image
 		/*Pixmap pm = new Pixmap(128, 128, Format.RGBA8888);
 		for(int i = 0; i < pm.getWidth(); i++)
@@ -92,6 +103,8 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 		float deltaTime = Gdx.graphics.getDeltaTime();
 
 		angle += 180.0f * deltaTime;
+		cam.slide(0, 0, -12.0f * deltaTime);
+
 
 		if(Gdx.input.isKeyPressed(Input.Keys.A)) {
 			cam.slide(-3.0f * deltaTime, 0, 0);
@@ -99,10 +112,10 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 		if(Gdx.input.isKeyPressed(Input.Keys.D)) {
 			cam.slide(3.0f * deltaTime, 0, 0);
 		}
-		if(Gdx.input.isKeyPressed(Input.Keys.W)) {
+		/*if(Gdx.input.isKeyPressed(Input.Keys.W)) {
 			cam.slide(0, 0, -3.0f * deltaTime);
 			//cam.walkForward(3.0f * deltaTime);
-		}
+		}*/
 		if(Gdx.input.isKeyPressed(Input.Keys.S)) {
 			cam.slide(0, 0, 3.0f * deltaTime);
 			//cam.walkForward(-3.0f * deltaTime);
@@ -117,12 +130,17 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
 			//cam.yaw(-90.0f * deltaTime);
 			//cam.rotateY(90.0f * deltaTime);
-			planeRotation -= 40.0f * deltaTime;
+			if(planeRotation > -50.0f){
+				planeRotation -= 160.0f * deltaTime;
+			}
+
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
 			//cam.yaw(90.0f * deltaTime);
 			//cam.rotateY(-90.0f * deltaTime);
-			planeRotation += 40.0f * deltaTime;
+			if(planeRotation < 50.0f){
+				planeRotation += 160.0f * deltaTime;
+			}
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
 			cam.pitch(90.0f * deltaTime);
@@ -149,6 +167,15 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 		{
 			Gdx.graphics.setDisplayMode(500, 500, false);
 			Gdx.app.exit();
+		}
+
+		else{
+			if(planeRotation > 0){
+				planeRotation -= 60.0f * deltaTime;
+			}
+			if(planeRotation < 0){
+				planeRotation += 60.0f * deltaTime;
+			}
 		}
 
 		//do all updates to the game
@@ -231,7 +258,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 			//shader.setMaterialSpecular(0.0f, 0.0f, 0.0f, 1.0f);
 			shader.setMaterialEmission(0, 0, 0, 1);
 			shader.setShininess(50.0f);
-			
+
 
 			ModelMatrix.main.pushMatrix();
 			ModelMatrix.main.addTranslation(cam.eye.x , cam.eye.y - 0.5f, cam.eye.z + 1.5f);
@@ -261,12 +288,12 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 	}
 
 	private void drawMap(){
-			ModelMatrix.main.pushMatrix();
-			ModelMatrix.main.addScale(0.2f,30.0f,400.0f);
-			ModelMatrix.main.addTranslation(40.0f,0.0f,0.0f);
-			shader.setModelMatrix(ModelMatrix.main.getMatrix());
-			BoxGraphic.drawSolidCube(shader, tex);
-			ModelMatrix.main.popMatrix();
+		ModelMatrix.main.pushMatrix();
+		ModelMatrix.main.addScale(0.2f,30.0f,400.0f);
+		ModelMatrix.main.addTranslation(40.0f,0.0f,0.0f);
+		shader.setModelMatrix(ModelMatrix.main.getMatrix());
+		BoxGraphic.drawSolidCube(shader, tex);
+		ModelMatrix.main.popMatrix();
 
 		ModelMatrix.main.pushMatrix();
 		ModelMatrix.main.addScale(0.2f,30.0f,400.0f);
