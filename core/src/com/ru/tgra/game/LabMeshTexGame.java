@@ -14,6 +14,7 @@ import com.ru.tgra.graphics.*;
 import com.ru.tgra.graphics.shapes.*;
 import com.ru.tgra.graphics.shapes.g3djmodel.G3DJModelLoader;
 import com.ru.tgra.graphics.shapes.g3djmodel.MeshModel;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 
 public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor {
 
@@ -26,7 +27,9 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 	
 	private float fov = 90.0f;
 
-	MeshModel model;
+	MeshModel airplaneModel;
+
+	Gates gates;
 
 	private Texture tex;
 	private Texture tex1;
@@ -48,6 +51,8 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 
 		Gdx.input.setInputProcessor(this);
 
+		gates = new Gates();
+
 		DisplayMode disp = Gdx.graphics.getDesktopDisplayMode();
 		Gdx.graphics.setDisplayMode(disp.width, disp.height, true);
 
@@ -56,7 +61,8 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 		tex = new Texture(Gdx.files.internal("core/assets/textures/download.jpg"));
 		tex1 = new Texture(Gdx.files.internal("core/assets/textures/phobos2k.png"));
 
-		model = G3DJModelLoader.loadG3DJFromFile("core/assets/models/germanColored.g3dj");
+		airplaneModel = G3DJModelLoader.loadG3DJFromFile("core/assets/models/germanColored.g3dj");
+
 
 		BoxGraphic.create();
 		SphereGraphic.create();
@@ -77,6 +83,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 		planedirection = new Vector3D(0.0f,0.0f,0.0f);
 
 		airplane = new Plane(cam.eye.x,cam.eye.y,cam.eye.z,planedirection);
+		gates.generateRandomGate(airplane.planecoords.z);
 		//TODO: try this way to create a texture image
 		/*Pixmap pm = new Pixmap(128, 128, Format.RGBA8888);
 		for(int i = 0; i < pm.getWidth(); i++)
@@ -185,6 +192,9 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 
 
 		airplane.update();
+		if(airplane.planecoords.z >= gates.zpos){
+			gates.generateRandomGate(airplane.planecoords.z);
+		}
 		//do all updates to the game
 	}
 	
@@ -246,9 +256,12 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 			//drawing the plane
 			ModelMatrix.main.pushMatrix();
 			airplane.display(shader);
-			model.draw(shader);
+			airplaneModel.draw(shader);
 			//SphereGraphic.drawSolidSphere(shader, tex);
 			ModelMatrix.main.popMatrix();
+
+			//draw the ring
+			gates.display(shader);
 
 			//draw the environment
 			drawWorld();
