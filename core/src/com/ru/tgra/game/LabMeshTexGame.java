@@ -290,6 +290,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 			//SphereGraphic.drawSolidSphere(shader, tex);
 			ModelMatrix.main.popMatrix();
 
+			//draw the environment
 			drawWorld();
 			//drawPyramids();
 		}
