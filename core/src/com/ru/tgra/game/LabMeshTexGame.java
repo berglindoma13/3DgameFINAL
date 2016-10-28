@@ -151,7 +151,9 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+
 			if(airplane.planerotationX < 50.0f){
+
 				airplane.rotateX(160.0f * deltaTime);
 			}
 
@@ -159,20 +161,6 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 				airplane.planecoords.y -= 2.0f * deltaTime;
 			}
 		}
-
-		/*if(Gdx.input.isKeyPressed(Input.Keys.Q)) {
-			cam.roll(-90.0f * deltaTime);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.E)) {
-			cam.roll(90.0f * deltaTime);
-		}
-
-		if(Gdx.input.isKeyPressed(Input.Keys.T)) {
-			fov -= 30.0f * deltaTime;
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.G)) {
-			fov += 10.0f * deltaTime;
-		}*/
 
 		if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE))
 		{
@@ -182,16 +170,16 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 
 		else{
 			if(airplane.planerotationZ > 0){
-				airplane.rotateZ(-60.0f * deltaTime);
+				airplane.rotateZ(-90.0f * deltaTime);
 			}
 			if(airplane.planerotationZ < 0){
-				airplane.rotateZ(60.0f * deltaTime);
+				airplane.rotateZ(90.0f * deltaTime);
 			}
 			if(airplane.planerotationX > 0){
-				airplane.rotateX(-60.0f * deltaTime);
+				airplane.rotateX(-90.0f * deltaTime);
 			}
 			if(airplane.planerotationX< 0){
-				airplane.rotateX(60.0f * deltaTime);
+				airplane.rotateX(90.0f * deltaTime);
 			}
 		}
 
