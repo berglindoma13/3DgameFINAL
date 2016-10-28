@@ -29,6 +29,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 	MeshModel model;
 
 	private Texture tex;
+	private Texture tex1;
 
 	private float planeRotationz;
 	private float planeRotationy;
@@ -52,7 +53,8 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 
 		shader = new Shader();
 
-		tex = new Texture(Gdx.files.internal("core/assets/textures/phobos2k.png"));
+		tex = new Texture(Gdx.files.internal("core/assets/textures/download.jpg"));
+		tex1 = new Texture(Gdx.files.internal("core/assets/textures/phobos2k.png"));
 
 		model = G3DJModelLoader.loadG3DJFromFile("core/assets/models/germanColored.g3dj");
 
@@ -97,8 +99,10 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 	{
 		float deltaTime = Gdx.graphics.getDeltaTime();
 
-		angle += 180.0f * deltaTime;
-		cam.slide(0, 0, -12.0f * deltaTime);
+
+		//angle += 180.0f * deltaTime;
+		cam.slide(0, 0, -42.0f * deltaTime);
+		airplane.planecoords.z += 42.0f * deltaTime;
 
 
 		if(Gdx.input.isKeyPressed(Input.Keys.A)) {
@@ -107,10 +111,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 		if(Gdx.input.isKeyPressed(Input.Keys.D)) {
 			cam.slide(3.0f * deltaTime, 0, 0);
 		}
-		/*if(Gdx.input.isKeyPressed(Input.Keys.W)) {
-			cam.slide(0, 0, -3.0f * deltaTime);
-			//cam.walkForward(3.0f * deltaTime);
-		}*/
+
 		if(Gdx.input.isKeyPressed(Input.Keys.S)) {
 			cam.slide(0, 0, 3.0f * deltaTime);
 			//cam.walkForward(-3.0f * deltaTime);
@@ -129,13 +130,20 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 				airplane.rotateZ(-160.0f * deltaTime);
 			}
 
+			if(airplane.planecoords.x < 2.0f){
+				airplane.planecoords.x += 2.0f * deltaTime;
+			}
+
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
 			//cam.yaw(90.0f * deltaTime);
 			//cam.rotateY(-90.0f * deltaTime);
 			if(airplane.planerotationZ < 50.0f){
 				airplane.rotateZ(160.0f * deltaTime);
+			}
 
+			if(airplane.planecoords.x > -2.0f){
+				airplane.planecoords.x -= 2.0f * deltaTime;
 			}
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
@@ -144,11 +152,20 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 				airplane.rotateX(-160.0f*deltaTime);
 
 			}
+
+			if(airplane.planecoords.y < 7.0f){
+				airplane.planecoords.y += 2.0f * deltaTime;
+			}
+
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
 			//cam.pitch(-90.0f * deltaTime);
 			if(airplane.planerotationX < 50.0f){
 				airplane.rotateX(160.0f * deltaTime);
+			}
+
+			if(airplane.planecoords.y > 2.0f){
+				airplane.planecoords.y -= 2.0f * deltaTime;
 			}
 		}
 
@@ -163,7 +180,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 			fov -= 30.0f * deltaTime;
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.G)) {
-			fov += 30.0f * deltaTime;
+			fov += 10.0f * deltaTime;
 		}
 
 		if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE))
@@ -187,7 +204,8 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 			}
 		}
 
-		airplane.position(cam.eye.x,cam.eye.y,cam.eye.z);
+
+		airplane.update();
 		//do all updates to the game
 	}
 	
@@ -230,20 +248,15 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 			shader.setViewMatrix(cam.getViewMatrix());
 			shader.setProjectionMatrix(cam.getProjectionMatrix());
 			shader.setEyePosition(cam.eye.x, cam.eye.y, cam.eye.z, 1.0f);
-			//BoxGraphic.drawOutlineCube();
-			//SphereGraphic.drawSolidSphere();
-			//SphereGraphic.drawOutlineSphere();
-
 
 			ModelMatrix.main.loadIdentityMatrix();
 
-			//ModelMatrix.main.addRotationZ(angle);
 
 			float s = (float)Math.sin((angle / 2.0) * Math.PI / 180.0);
 			float c = (float)Math.cos((angle / 2.0) * Math.PI / 180.0);
 
-			shader.setLightPosition(0.0f + c * 3.0f, 5.0f, 0.0f + s * 3.0f, 1.0f);
-			//shader.setLightPosition(3.0f, 4.0f, 0.0f, 1.0f);
+			//shader.setLightPosition(0.0f + c * 3.0f, 5.0f, 0.0f + s * 3.0f, 1.0f);
+			shader.setLightPosition(3.0f, 4.0f, 0.0f, 1.0f);
 			//shader.setLightPosition(cam.eye.x, cam.eye.y, cam.eye.z, 1.0f);
 
 
@@ -260,7 +273,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 			//shader.setLightColor(s2, 0.4f, c2, 1.0f);
 			shader.setLightColor(1.0f, 1.0f, 1.0f, 1.0f);
 			
-			shader.setGlobalAmbient(0.3f, 0.3f, 0.3f, 1);
+			shader.setGlobalAmbient(0.7f, 0.7f, 0.7f, 1);
 
 			//shader.setMaterialDiffuse(s, 0.4f, c, 1.0f);
 			shader.setMaterialDiffuse(1.0f, 1.0f, 1.0f, 1.0f);
@@ -277,7 +290,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 			//SphereGraphic.drawSolidSphere(shader, tex);
 			ModelMatrix.main.popMatrix();
 
-			drawMap();
+			drawWorld();
 			//drawPyramids();
 		}
 	}
@@ -292,20 +305,15 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 
 	}
 
-	private void drawMap(){
-		ModelMatrix.main.pushMatrix();
-		ModelMatrix.main.addScale(0.2f,30.0f,400.0f);
-		ModelMatrix.main.addTranslation(40.0f,0.0f,0.0f);
-		shader.setModelMatrix(ModelMatrix.main.getMatrix());
-		BoxGraphic.drawSolidCube(shader, tex);
-		ModelMatrix.main.popMatrix();
+	private void drawWorld(){
 
-		ModelMatrix.main.pushMatrix();
-		ModelMatrix.main.addScale(0.2f,30.0f,400.0f);
-		ModelMatrix.main.addTranslation(-40.0f,0.0f,0.0f);
-		shader.setModelMatrix(ModelMatrix.main.getMatrix());
-		BoxGraphic.drawSolidCube(shader, tex);
-		ModelMatrix.main.popMatrix();
+			ModelMatrix.main.pushMatrix();
+			ModelMatrix.main.addTranslation(0.0f,4.0f,190.0f);
+		//(x,y - 0.5f,z+1.5f) = 0.0f,3.5f,-1.5f
+			ModelMatrix.main.addScale(80.0f,80.0f,380.0f);
+			shader.setModelMatrix(ModelMatrix.main.getMatrix());
+			SphereGraphic.drawSolidSphere(shader, tex);
+			ModelMatrix.main.popMatrix();
 
 	}
 

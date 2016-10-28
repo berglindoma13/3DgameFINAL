@@ -39,7 +39,7 @@ public class Camera {
 		this.bottom = -1;
 		this.top = 1;
 		this.near = -1;
-		this.far = 1;
+		this.far = 1000;
 	}
 
 	public void look(Point3D eye, Point3D center, Vector3D up) {

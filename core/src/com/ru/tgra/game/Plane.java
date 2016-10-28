@@ -15,12 +15,12 @@ public class Plane {
     float planerotationX;
 
     public Plane(float x, float y, float z, Vector3D dir){
-        this.planecoords = new Point3D(x,y,z);
+        this.planecoords = new Point3D(x,y - 0.5f,z+1.5f);
         this.planedirection = new Vector3D(dir.x,dir.y,dir.z);
         planerotationZ = 0.0f;
     }
 
-    public void position(float x, float y, float z){
+    public void updatePosition(float x, float y, float z){
         planecoords.x = x;
         planecoords.y = y;
         planecoords.z = z;
@@ -40,6 +40,11 @@ public class Plane {
         planecoords.x += planedirection.x;
         planecoords.y += planedirection.y;
         planecoords.z += planedirection.z;
+        System.out.println("x: " + planecoords.x);
+        System.out.println("y: " + planecoords.y);
+        System.out.println("z: " + planecoords.z);
+
+
 
     }
     public Point3D getPlanecoords(){
@@ -47,7 +52,6 @@ public class Plane {
     }
 
     public void display(Shader shader){
-        //ModelMatrix.main.pushMatrix();
         ModelMatrix.main.addTranslation(planecoords.x , planecoords.y - 0.5f, planecoords.z + 1.5f);
         ModelMatrix.main.addScale(0.09f,0.09f,0.09f);
         ModelMatrix.main.addRotationZ(planerotationZ);
@@ -55,10 +59,7 @@ public class Plane {
 
         //ModelMatrix.main.addTranslation(planedirection.x ,0.0f,planedirection.z);
 
-        //ModelMatrix.main.addScale(0.2f,0.2f,0.2f);
-        //ModelMatrix.main.addRotation(angle, new Vector3D(1,1,1));
         shader.setModelMatrix(ModelMatrix.main.getMatrix());
-        //ModelMatrix.main.popMatrix();
 
     }
 
