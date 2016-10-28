@@ -99,13 +99,11 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 	{
 		float deltaTime = Gdx.graphics.getDeltaTime();
 
-
-		//angle += 180.0f * deltaTime;
 		cam.slide(0, 0, -42.0f * deltaTime);
 		airplane.planecoords.z += 42.0f * deltaTime;
 
 
-		if(Gdx.input.isKeyPressed(Input.Keys.A)) {
+		/*if(Gdx.input.isKeyPressed(Input.Keys.A)) {
 			cam.slide(-3.0f * deltaTime, 0, 0);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.D)) {
@@ -114,18 +112,15 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 
 		if(Gdx.input.isKeyPressed(Input.Keys.S)) {
 			cam.slide(0, 0, 3.0f * deltaTime);
-			//cam.walkForward(-3.0f * deltaTime);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.R)) {
 			cam.slide(0, 3.0f * deltaTime, 0);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.F)) {
 			cam.slide(0, -3.0f * deltaTime, 0);
-		}
+		}*/
 
 		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-			//cam.yaw(-90.0f * deltaTime);
-			//cam.rotateY(90.0f * deltaTime);
 			if(airplane.planerotationZ > -50.0f){
 				airplane.rotateZ(-160.0f * deltaTime);
 			}
@@ -136,8 +131,6 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-			//cam.yaw(90.0f * deltaTime);
-			//cam.rotateY(-90.0f * deltaTime);
 			if(airplane.planerotationZ < 50.0f){
 				airplane.rotateZ(160.0f * deltaTime);
 			}
@@ -147,7 +140,6 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 			}
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
-			//cam.pitch(90.0f * deltaTime);
 			if(airplane.planerotationX > -50.0f){
 				airplane.rotateX(-160.0f*deltaTime);
 
@@ -159,7 +151,6 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-			//cam.pitch(-90.0f * deltaTime);
 			if(airplane.planerotationX < 50.0f){
 				airplane.rotateX(160.0f * deltaTime);
 			}
@@ -169,7 +160,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 			}
 		}
 
-		if(Gdx.input.isKeyPressed(Input.Keys.Q)) {
+		/*if(Gdx.input.isKeyPressed(Input.Keys.Q)) {
 			cam.roll(-90.0f * deltaTime);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.E)) {
@@ -181,7 +172,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.G)) {
 			fov += 10.0f * deltaTime;
-		}
+		}*/
 
 		if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE))
 		{
@@ -216,35 +207,16 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 
 		Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
 		//Gdx.gl.glDisable(GL20.GL_DEPTH_TEST);
-/*
-		Gdx.gl.glEnable(GL20.GL_BLEND);
-		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+
+		//Gdx.gl.glEnable(GL20.GL_BLEND);
+		//Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		//Gdx.gl.glBlendFunc(GL20.GL_ONE, GL20.GL_ONE);
 		//Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE);
-*/
+
 		for(int viewNum = 0; viewNum < 2; viewNum++)
 		{
-			/*if(viewNum == 0)
-			{
-				Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight());
-				cam.perspectiveProjection(fov, (float)Gdx.graphics.getWidth() / (float)(2*Gdx.graphics.getHeight()), 0.2f, 100.0f);
-				shader.setViewMatrix(cam.getViewMatrix());
-				shader.setProjectionMatrix(cam.getProjectionMatrix());
-				shader.setEyePosition(cam.eye.x, cam.eye.y, cam.eye.z, 1.0f);
-			}
-			else
-			{
-				Gdx.gl.glViewport(Gdx.graphics.getWidth() / 2, 0, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight());
-				topCam.look(new Point3D(cam.eye.x, 20.0f, cam.eye.z), cam.eye, new Vector3D(0,0,-1));
-				//orthoCam.look(new Point3D(7.0f, 40.0f, -7.0f), new Point3D(7.0f, 0.0f, -7.0f), new Vector3D(0,0,-1));
-				topCam.perspectiveProjection(30.0f, (float)Gdx.graphics.getWidth() / (float)(2*Gdx.graphics.getHeight()), 3, 100);
-				shader.setViewMatrix(topCam.getViewMatrix());
-				shader.setProjectionMatrix(topCam.getProjectionMatrix());
-				shader.setEyePosition(topCam.eye.x, topCam.eye.y, topCam.eye.z, 1.0f);
-			}*/
-
 			Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-			cam.perspectiveProjection(fov, (float)Gdx.graphics.getWidth() / (float)(2*Gdx.graphics.getHeight()), 0.2f, 100.0f);
+			cam.perspectiveProjection(fov, (float)Gdx.graphics.getWidth() / (float)(2*Gdx.graphics.getHeight()), 0.2f, 2000.0f);
 			shader.setViewMatrix(cam.getViewMatrix());
 			shader.setProjectionMatrix(cam.getProjectionMatrix());
 			shader.setEyePosition(cam.eye.x, cam.eye.y, cam.eye.z, 1.0f);
@@ -309,74 +281,12 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 	private void drawWorld(){
 
 			ModelMatrix.main.pushMatrix();
-			ModelMatrix.main.addTranslation(0.0f,4.0f,190.0f);
-		//(x,y - 0.5f,z+1.5f) = 0.0f,3.5f,-1.5f
-			ModelMatrix.main.addScale(80.0f,80.0f,380.0f);
+			ModelMatrix.main.addTranslation(0.0f,4.0f,600.0f);
+			ModelMatrix.main.addScale(120.0f,120.0f,1200.0f);
 			shader.setModelMatrix(ModelMatrix.main.getMatrix());
 			SphereGraphic.drawSolidSphere(shader, tex);
 			ModelMatrix.main.popMatrix();
 
-	}
-
-	private void drawPyramids()
-	{
-		int maxLevel = 9;
-
-		for(int pyramidNr = 0; pyramidNr < 2; pyramidNr++)
-		{
-			ModelMatrix.main.pushMatrix();
-			if(pyramidNr == 0)
-			{
-				shader.setMaterialDiffuse(0.8f, 0.8f, 0.2f, 1.0f);
-				shader.setMaterialSpecular(1.0f, 1.0f, 1.0f, 1.0f);
-				shader.setShininess(150.0f);
-				shader.setMaterialEmission(0, 0, 0, 1);
-				ModelMatrix.main.addTranslation(0.0f, 0.0f, -7.0f);
-			}
-			else
-			{
-				shader.setMaterialDiffuse(0.5f, 0.3f, 1.0f, 1.0f);
-				shader.setMaterialSpecular(1.0f, 1.0f, 1.0f, 1.0f);
-				shader.setShininess(150.0f);
-				shader.setMaterialEmission(0, 0, 0, 1);
-				ModelMatrix.main.addTranslation(0.0f, 0.0f, 7.0f);
-			}
-			ModelMatrix.main.pushMatrix();
-			for(int level = 0; level < maxLevel; level++)
-			{
-	
-				ModelMatrix.main.addTranslation(0.55f, 1.0f, -0.55f);
-	
-				ModelMatrix.main.pushMatrix();
-				for(int i = 0; i < maxLevel-level; i++)
-				{
-					ModelMatrix.main.addTranslation(1.1f, 0, 0);
-					ModelMatrix.main.pushMatrix();
-					for(int j = 0; j < maxLevel-level; j++)
-					{
-						ModelMatrix.main.addTranslation(0, 0, -1.1f);
-						ModelMatrix.main.pushMatrix();
-						if(i % 2 == 0)
-						{
-							ModelMatrix.main.addScale(0.2f, 1, 1);
-						}
-						else
-						{
-							ModelMatrix.main.addScale(1, 1, 0.2f);
-						}
-						shader.setModelMatrix(ModelMatrix.main.getMatrix());
-
-						BoxGraphic.drawSolidCube(shader, null);
-						//BoxGraphic.drawSolidCube(shader, tex);
-						ModelMatrix.main.popMatrix();
-					}
-					ModelMatrix.main.popMatrix();
-				}
-				ModelMatrix.main.popMatrix();
-			}
-			ModelMatrix.main.popMatrix();
-			ModelMatrix.main.popMatrix();
-		}
 	}
 
 	@Override
