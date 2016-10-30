@@ -16,6 +16,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.ru.tgra.graphics.*;
 import com.ru.tgra.graphics.Camera;
 import com.ru.tgra.graphics.shapes.*;
+import com.ru.tgra.graphics.shapes.g3djmodel.Boxes2D;
 import com.ru.tgra.graphics.shapes.g3djmodel.G3DJModelLoader;
 import com.ru.tgra.graphics.shapes.g3djmodel.MeshModel;
 import com.sun.org.apache.xpath.internal.operations.Mod;
@@ -37,6 +38,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 
 	private Texture tex;
 	private Texture tex1;
+    private Texture welcome;
 
 	private float planeRotationz;
 	private float planeRotationy;
@@ -60,7 +62,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 		pause = false;
 
 		gamescore = 3;
-        menu = new Menu();
+
 
 		Gdx.input.setInputProcessor(this);
 
@@ -73,6 +75,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 
 		tex = new Texture(Gdx.files.internal("core/assets/textures/download.jpg"));
 		tex1 = new Texture(Gdx.files.internal("core/assets/textures/phobos2k.png"));
+        welcome = new Texture(Gdx.files.internal("core/assets/textures/welcome.png"));
 
 		airplaneModel = G3DJModelLoader.loadG3DJFromFile("core/assets/models/germanColored.g3dj");
 
@@ -98,7 +101,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 		airplane = new Plane(cam.eye.x,cam.eye.y,cam.eye.z,planedirection);
 		gates.generateRandomGate(airplane.planecoords.z);
 
-
+        menu = new Menu(shader);
 
 		//TODO: try this way to create a texture image
 		/*Pixmap pm = new Pixmap(128, 128, Format.RGBA8888);
@@ -125,7 +128,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 		}
 		float deltaTime = Gdx.graphics.getDeltaTime();
 
-		cam.slide(0, 0, -42.0f * deltaTime);
+		//cam.slide(0, 0, -42.0f * deltaTime);
 		airplane.planecoords.z += 42.0f * deltaTime;
 
 
@@ -272,19 +275,19 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 
 
 			//drawing the plane
-			ModelMatrix.main.pushMatrix();
-            //BoxGraphic.drawSolidCube(shader,tex1);
-			airplane.display(shader);
-			airplaneModel.draw(shader);
+            ModelMatrix.main.pushMatrix();
+            menu.display(welcome);
+			//airplane.display(shader);
+			//airplaneModel.draw(shader);
 			//SphereGraphic.drawSolidSphere(shader, tex);
 			ModelMatrix.main.popMatrix();
 
 			//draw the ring
-			gates.display(shader);
+			//gates.display(shader);
 
 			//draw the environment
-			drawWorld();
-            //menu.display(shader,tex);
+			//drawWorld();
+            //menu.display(shader,welcome);
 
 	}
 
