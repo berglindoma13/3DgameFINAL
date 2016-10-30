@@ -281,7 +281,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 			//draw the environment
 			drawWorld();
             //menu.display(shader,tex);
-		
+
 	}
 
 	@Override
