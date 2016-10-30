@@ -40,11 +40,6 @@ public class Plane {
         planecoords.x += planedirection.x;
         planecoords.y += planedirection.y;
         planecoords.z += planedirection.z;
-        System.out.println("x: " + planecoords.x);
-        System.out.println("y: " + planecoords.y);
-        System.out.println("z: " + planecoords.z);
-
-
 
     }
     public Point3D getPlanecoords(){

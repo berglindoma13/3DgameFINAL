@@ -42,12 +42,16 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 	private boolean right;
 	private boolean left;
 
+	private int gamescore;
+
 	Random rand = new Random();
 
 	@Override
 	public void create () {
 		right = false;
 		left = false;
+
+		gamescore = 3;
 
 		Gdx.input.setInputProcessor(this);
 
@@ -104,6 +108,9 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 	
 	private void update()
 	{
+		if(gamescore == 0){
+			System.out.println("GAME OVER");
+		}
 		float deltaTime = Gdx.graphics.getDeltaTime();
 
 		cam.slide(0, 0, -42.0f * deltaTime);
@@ -192,7 +199,10 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 
 
 		airplane.update();
-		if(airplane.planecoords.z >= gates.zpos){
+		if((gates.zpos - airplane.planecoords.z) < 1.0f){
+			if(!gates.collision(airplane.planecoords.x, airplane.planecoords.y)){
+				gamescore --;
+			}
 			gates.generateRandomGate(airplane.planecoords.z);
 		}
 		//do all updates to the game
