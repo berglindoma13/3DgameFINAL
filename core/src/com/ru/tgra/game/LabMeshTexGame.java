@@ -8,9 +8,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Graphics.DisplayMode;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.assets.loaders.BitmapFontLoader;
+import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.ru.tgra.graphics.*;
+import com.ru.tgra.graphics.Camera;
 import com.ru.tgra.graphics.shapes.*;
 import com.ru.tgra.graphics.shapes.g3djmodel.G3DJModelLoader;
 import com.ru.tgra.graphics.shapes.g3djmodel.MeshModel;
@@ -41,6 +45,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 
 	private boolean right;
 	private boolean left;
+	private boolean pause;
 
 	Random rand = new Random();
 
@@ -48,6 +53,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 	public void create () {
 		right = false;
 		left = false;
+		pause = false;
 
 		Gdx.input.setInputProcessor(this);
 
@@ -104,95 +110,94 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 	
 	private void update()
 	{
+
+
 		float deltaTime = Gdx.graphics.getDeltaTime();
 
 		cam.slide(0, 0, -42.0f * deltaTime);
 		airplane.planecoords.z += 42.0f * deltaTime;
 
 
-		/*if(Gdx.input.isKeyPressed(Input.Keys.A)) {
-			cam.slide(-3.0f * deltaTime, 0, 0);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.D)) {
-			cam.slide(3.0f * deltaTime, 0, 0);
-		}
+	/*if(Gdx.input.isKeyPressed(Input.Keys.A)) {
+		cam.slide(-3.0f * deltaTime, 0, 0);
+	}
+	if(Gdx.input.isKeyPressed(Input.Keys.D)) {
+		cam.slide(3.0f * deltaTime, 0, 0);
+	}
 
-		if(Gdx.input.isKeyPressed(Input.Keys.S)) {
-			cam.slide(0, 0, 3.0f * deltaTime);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.R)) {
-			cam.slide(0, 3.0f * deltaTime, 0);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.F)) {
-			cam.slide(0, -3.0f * deltaTime, 0);
-		}*/
+	if(Gdx.input.isKeyPressed(Input.Keys.S)) {
+		cam.slide(0, 0, 3.0f * deltaTime);
+	}
+	if(Gdx.input.isKeyPressed(Input.Keys.R)) {
+		cam.slide(0, 3.0f * deltaTime, 0);
+	}
+	if(Gdx.input.isKeyPressed(Input.Keys.F)) {
+		cam.slide(0, -3.0f * deltaTime, 0);
+	}*/
 
-		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-			if(airplane.planerotationZ > -50.0f){
+		if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+			if (airplane.planerotationZ > -50.0f) {
 				airplane.rotateZ(-160.0f * deltaTime);
 			}
 
-			if(airplane.planecoords.x < 2.0f){
+			if (airplane.planecoords.x < 2.0f) {
 				airplane.planecoords.x += 2.0f * deltaTime;
 			}
 
 		}
-		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-			if(airplane.planerotationZ < 50.0f){
+		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+			if (airplane.planerotationZ < 50.0f) {
 				airplane.rotateZ(160.0f * deltaTime);
 			}
 
-			if(airplane.planecoords.x > -2.0f){
+			if (airplane.planecoords.x > -2.0f) {
 				airplane.planecoords.x -= 2.0f * deltaTime;
 			}
 		}
-		if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
-			if(airplane.planerotationX > -50.0f){
-				airplane.rotateX(-160.0f*deltaTime);
+		if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+			if (airplane.planerotationX > -50.0f) {
+				airplane.rotateX(-160.0f * deltaTime);
 
 			}
 
-			if(airplane.planecoords.y < 7.0f){
+			if (airplane.planecoords.y < 7.0f) {
 				airplane.planecoords.y += 2.0f * deltaTime;
 			}
 
 		}
-		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+		if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
 
-			if(airplane.planerotationX < 50.0f){
+			if (airplane.planerotationX < 50.0f) {
 
 				airplane.rotateX(160.0f * deltaTime);
 			}
 
-			if(airplane.planecoords.y > 2.0f){
+			if (airplane.planecoords.y > 2.0f) {
 				airplane.planecoords.y -= 2.0f * deltaTime;
 			}
 		}
 
-		if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE))
-		{
+		if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
 			Gdx.graphics.setDisplayMode(500, 500, false);
 			Gdx.app.exit();
-		}
-
-		else{
-			if(airplane.planerotationZ > 0){
+		} else {
+			if (airplane.planerotationZ > 0) {
 				airplane.rotateZ(-90.0f * deltaTime);
 			}
-			if(airplane.planerotationZ < 0){
+			if (airplane.planerotationZ < 0) {
 				airplane.rotateZ(90.0f * deltaTime);
 			}
-			if(airplane.planerotationX > 0){
+			if (airplane.planerotationX > 0) {
 				airplane.rotateX(-90.0f * deltaTime);
 			}
-			if(airplane.planerotationX< 0){
+			if (airplane.planerotationX < 0) {
 				airplane.rotateX(90.0f * deltaTime);
 			}
 		}
 
 
 		airplane.update();
-		if(airplane.planecoords.z >= gates.zpos){
+		if (airplane.planecoords.z >= gates.zpos) {
 			gates.generateRandomGate(airplane.planecoords.z);
 		}
 		//do all updates to the game
@@ -200,6 +205,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 	
 	private void display()
 	{
+
 		//do all actual drawing and rendering here
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
@@ -271,11 +277,24 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 
 	@Override
 	public void render () {
-		
-		input();
-		//put the code inside the update and display methods, depending on the nature of the code
-		update();
-		display();
+		if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
+			if(pause){
+				pause = false;
+			}
+			else{
+				pause = true;
+			}
+		}
+		if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+			Gdx.graphics.setDisplayMode(500, 500, false);
+			Gdx.app.exit();
+		}
+		if(!pause){
+			input();
+			//put the code inside the update and display methods, depending on the nature of the code
+			update();
+			display();
+		}
 
 	}
 

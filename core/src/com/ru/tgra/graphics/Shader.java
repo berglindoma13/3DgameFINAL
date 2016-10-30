@@ -203,6 +203,10 @@ public class Shader {
 		return uvLoc;
 	}
 
+	public int getProjectionMatrixLoc() {
+		return projectionMatrixLoc;
+	}
+
 	public void setModelMatrix(FloatBuffer matrix)
 	{
 		Gdx.gl.glUniformMatrix4fv(modelMatrixLoc, 1, false, matrix);
