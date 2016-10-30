@@ -3,6 +3,7 @@ package com.ru.tgra.game;
 import com.ru.tgra.graphics.ModelMatrix;
 import com.ru.tgra.graphics.Point3D;
 import com.ru.tgra.graphics.Shader;
+import com.ru.tgra.graphics.shapes.BoxGraphic;
 import com.ru.tgra.graphics.shapes.g3djmodel.G3DJModelLoader;
 import com.ru.tgra.graphics.shapes.g3djmodel.MeshModel;
 
@@ -30,7 +31,6 @@ public class Gates {
         bottom = 2.0f;
         left = 2.0f;
         right = -2.0f;
-        generateRandomGate(0.0f);
     }
 
     public void generateRandomGate(float z){

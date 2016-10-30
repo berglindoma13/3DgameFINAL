@@ -46,12 +46,15 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 
 	Random rand = new Random();
 
+    Menu menu;
+
 	@Override
 	public void create () {
 		right = false;
 		left = false;
 
 		gamescore = 3;
+        menu = new Menu();
 
 		Gdx.input.setInputProcessor(this);
 
@@ -88,6 +91,9 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 
 		airplane = new Plane(cam.eye.x,cam.eye.y,cam.eye.z,planedirection);
 		gates.generateRandomGate(airplane.planecoords.z);
+
+
+
 		//TODO: try this way to create a texture image
 		/*Pixmap pm = new Pixmap(128, 128, Format.RGBA8888);
 		for(int i = 0; i < pm.getWidth(); i++)
@@ -221,8 +227,6 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 		//Gdx.gl.glBlendFunc(GL20.GL_ONE, GL20.GL_ONE);
 		//Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE);
 
-		for(int viewNum = 0; viewNum < 2; viewNum++)
-		{
 			Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 			cam.perspectiveProjection(fov, (float)Gdx.graphics.getWidth() / (float)(2*Gdx.graphics.getHeight()), 0.2f, 2000.0f);
 			shader.setViewMatrix(cam.getViewMatrix());
@@ -265,6 +269,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 
 			//drawing the plane
 			ModelMatrix.main.pushMatrix();
+            //BoxGraphic.drawSolidCube(shader,tex1);
 			airplane.display(shader);
 			airplaneModel.draw(shader);
 			//SphereGraphic.drawSolidSphere(shader, tex);
@@ -275,8 +280,8 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 
 			//draw the environment
 			drawWorld();
-			//drawPyramids();
-		}
+            //menu.display(shader,tex);
+		
 	}
 
 	@Override
