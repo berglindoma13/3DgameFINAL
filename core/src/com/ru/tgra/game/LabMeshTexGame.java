@@ -283,14 +283,15 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 	@Override
 	public void render () {
 		if(menuscreen){
-			if(Gdx.input.justTouched()){
-				float x = Gdx.input.getX();
-				float y = Gdx.input.getY();
-				System.out.println("x: " + x);
-				System.out.println("y : " + y);
-				if(menu.startGame(x,y)){
+			if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
+				//float x = Gdx.input.getX();
+				//float y = Gdx.input.getY();
+				//System.out.println("x: " + x);
+				//System.out.println("y : " + y);
+				/*if(menu.startGame(x,y)){
 					menuscreen = false;
-				}
+				}*/
+				menuscreen = false;
 			}
 			else{
 				display();
