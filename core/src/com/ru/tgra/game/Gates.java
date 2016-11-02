@@ -49,7 +49,7 @@ public class Gates {
     }
 
     public boolean collision (float x, float y){
-        if((x < (xpos + 0.5f) && x > (xpos - 0.5f)) && (y > (ypos - 0.5f) && y < (ypos + 0.5f))){
+        if((x < (xpos + 1.0f) && x > (xpos - 1f)) && (y > (ypos - 1f) && y < (ypos + 1f))){
             return true;
         }
         return false;
