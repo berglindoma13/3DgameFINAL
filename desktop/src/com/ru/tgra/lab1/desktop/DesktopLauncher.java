@@ -12,7 +12,7 @@ public class DesktopLauncher {
 
 		config.title = "3D Assignment TGRA"; // or whatever you like
 		config.width = 1024;  //experiment with
-		config.height = 512;  //the window size
+		config.height = 768;  //the window size
 		config.x = 80;
 		config.y = 80;
 		//config.fullscreen = true;
