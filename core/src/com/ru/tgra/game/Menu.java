@@ -2,6 +2,7 @@ package com.ru.tgra.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.ru.tgra.graphics.ModelMatrix;
 import com.ru.tgra.graphics.Shader;

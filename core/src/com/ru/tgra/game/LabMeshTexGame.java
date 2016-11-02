@@ -124,8 +124,6 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 		cam.slide(0, 0, -42.0f * deltaTime);
 		airplane.planecoords.z += 42.0f * deltaTime;
 
-
-
 		if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
 			if (airplane.planerotationZ > -50.0f) {
 				airplane.rotateZ(-180.0f * deltaTime);
@@ -265,8 +263,10 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 	public void displaygame(){
 
 		//drawing the plane
+		ModelMatrix.main.pushMatrix();
 		airplane.display(shader);
 		airplaneModel.draw(shader);
+		ModelMatrix.main.popMatrix();
 
 		//draw the rings
 		gates.display(shader);
@@ -284,13 +284,6 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 	public void render () {
 		if(menuscreen){
 			if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
-				//float x = Gdx.input.getX();
-				//float y = Gdx.input.getY();
-				//System.out.println("x: " + x);
-				//System.out.println("y : " + y);
-				/*if(menu.startGame(x,y)){
-					menuscreen = false;
-				}*/
 				menuscreen = false;
 			}
 			else{
