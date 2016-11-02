@@ -35,6 +35,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 	MeshModel airplaneModel;
 
 	Gates gates;
+	Obstacle obstacle;
 
 	private Texture tex;
 	private Texture tex1;
@@ -67,6 +68,8 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 		Gdx.input.setInputProcessor(this);
 
 		gates = new Gates();
+		obstacle = new Obstacle();
+		obstacle.generateObstacle(70f);
 
 		DisplayMode disp = Gdx.graphics.getDesktopDisplayMode();
 		Gdx.graphics.setDisplayMode(disp.width, disp.height, true);
@@ -128,7 +131,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 		}
 		float deltaTime = Gdx.graphics.getDeltaTime();
 
-		//cam.slide(0, 0, -42.0f * deltaTime);
+		cam.slide(0, 0, -42.0f * deltaTime);
 		airplane.planecoords.z += 42.0f * deltaTime;
 
 
@@ -151,7 +154,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 
 		if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
 			if (airplane.planerotationZ > -50.0f) {
-				airplane.rotateZ(-160.0f * deltaTime);
+				airplane.rotateZ(-180.0f * deltaTime);
 			}
 
 			if (airplane.planecoords.x < 2.0f) {
@@ -161,7 +164,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
 			if (airplane.planerotationZ < 50.0f) {
-				airplane.rotateZ(160.0f * deltaTime);
+				airplane.rotateZ(180.0f * deltaTime);
 			}
 
 			if (airplane.planecoords.x > -2.0f) {
@@ -170,7 +173,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
 			if (airplane.planerotationX > -50.0f) {
-				airplane.rotateX(-160.0f * deltaTime);
+				airplane.rotateX(-180.0f * deltaTime);
 
 			}
 
@@ -183,7 +186,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 
 			if (airplane.planerotationX < 50.0f) {
 
-				airplane.rotateX(160.0f * deltaTime);
+				airplane.rotateX(180.0f * deltaTime);
 			}
 
 			if (airplane.planecoords.y > 2.0f) {
@@ -216,6 +219,12 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 				gamescore --;
 			}
 			gates.generateRandomGate(airplane.planecoords.z);
+		}
+		if((obstacle.zpos - airplane.planecoords.z) < 1.0f){
+			/*if(!gates.collision(airplane.planecoords.x, airplane.planecoords.y)){
+				gamescore --;
+			}*/
+			obstacle.generateObstacle(airplane.planecoords.z);
 		}
 		//do all updates to the game
 	}
@@ -275,18 +284,23 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 
 
 			//drawing the plane
+
             ModelMatrix.main.pushMatrix();
-            menu.display(welcome);
-			//airplane.display(shader);
-			//airplaneModel.draw(shader);
+            //menu.display(welcome);
+			airplane.display(shader);
+			airplaneModel.draw(shader);
 			//SphereGraphic.drawSolidSphere(shader, tex);
 			ModelMatrix.main.popMatrix();
 
+
 			//draw the ring
-			//gates.display(shader);
+
+			gates.display(shader);
+
+			obstacle.display(shader);
 
 			//draw the environment
-			//drawWorld();
+			drawWorld();
             //menu.display(shader,welcome);
 
 	}
