@@ -95,27 +95,27 @@ public class BoxGraphic {
 							0.6666f, 0.3333f,
 							0.6666f, 0.6666f,
 							0.3333f, 0.6666f,
-							
+
 							0.6666f, 0.6666f,
 							1.0f, 0.6666f,
 							1.0f, 1.0f,
 							0.6666f, 1.0f,
-							
+
 							0.0f, 0.3333f,
 							1.0f, 0.3333f,
 							1.0f, 0.6666f,
 							0.0f, 0.6666f,
-							
+
 							0.6666f, 0.3333f,
 							1.0f, 0.3333f,
 							1.0f, 0.6666f,
 							0.6666f, 0.6666f,
-							
+
 							0.0f, 0.0f,
 							2.0f, 0.0f,
 							2.0f, 2.0f,
 							0.0f, 2.0f,
-							
+
 							0.0f, 1.0f,
 							1.0f, 1.0f,
 							1.0f, 0.0f,
@@ -150,5 +150,7 @@ public class BoxGraphic {
 
 		Gdx.gl.glDrawElements(GL20.GL_TRIANGLES, 36, GL20.GL_UNSIGNED_SHORT, indexBuffer);
 	}
+
+
 
 }

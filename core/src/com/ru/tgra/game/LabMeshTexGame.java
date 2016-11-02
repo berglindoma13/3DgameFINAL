@@ -49,6 +49,8 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 	private boolean left;
 	private boolean pause;
 
+	private boolean menuscreen;
+
 	private int gamescore;
 
 	Random rand = new Random();
@@ -62,6 +64,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 		pause = false;
 
 		gamescore = 3;
+		menuscreen = true;
 
 
 		Gdx.input.setInputProcessor(this);
@@ -75,7 +78,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 
 		tex = new Texture(Gdx.files.internal("core/assets/textures/download.jpg"));
 		tex1 = new Texture(Gdx.files.internal("core/assets/textures/phobos2k.png"));
-        welcome = new Texture(Gdx.files.internal("core/assets/textures/welcome.png"));
+
 
 		airplaneModel = G3DJModelLoader.loadG3DJFromFile("core/assets/models/germanColored.g3dj");
 
@@ -123,12 +126,13 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 	
 	private void update()
 	{
+
 		if(gamescore == 0){
 			System.out.println("GAME OVER");
 		}
 		float deltaTime = Gdx.graphics.getDeltaTime();
 
-		//cam.slide(0, 0, -42.0f * deltaTime);
+		cam.slide(0, 0, -42.0f * deltaTime);
 		airplane.planecoords.z += 42.0f * deltaTime;
 
 
@@ -274,44 +278,52 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 			shader.setShininess(50.0f);
 
 
-			//drawing the plane
-            ModelMatrix.main.pushMatrix();
-            menu.display(welcome);
-			//airplane.display(shader);
-			//airplaneModel.draw(shader);
-			//SphereGraphic.drawSolidSphere(shader, tex);
-			ModelMatrix.main.popMatrix();
 
-			//draw the ring
-			//gates.display(shader);
-
-			//draw the environment
-			//drawWorld();
-            //menu.display(shader,welcome);
 
 	}
 
+	public void displaygame(){
+
+		//drawing the plane
+		ModelMatrix.main.pushMatrix();
+		airplane.display(shader);
+		airplaneModel.draw(shader);
+		ModelMatrix.main.popMatrix();
+
+		//draw the ring
+		gates.display(shader);
+
+		//draw the environment
+		drawWorld();
+	}
+
+
 	@Override
 	public void render () {
-		if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
-			if(pause){
-				pause = false;
-			}
-			else{
-				pause = true;
-			}
-		}
-		if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-			Gdx.graphics.setDisplayMode(500, 500, false);
-			Gdx.app.exit();
-		}
-		if(!pause){
-			input();
-			//put the code inside the update and display methods, depending on the nature of the code
-			update();
+		if(menuscreen){
 			display();
+			menu.display();
 		}
-
+		else{
+			if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
+				if(pause){
+					pause = false;
+				}
+				else{
+					pause = true;
+				}
+			}
+			if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+				Gdx.graphics.setDisplayMode(500, 500, false);
+				Gdx.app.exit();
+			}
+			if(!pause){
+				input();
+				//put the code inside the update and display methods, depending on the nature of the code
+				update();
+				displaygame();
+			}
+		}
 	}
 
 	private void drawWorld(){
