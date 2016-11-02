@@ -63,7 +63,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 		pause = false;
 
 		gamescore = 3;
-		menuscreen = false;
+		menuscreen = true;
 
 
 		Gdx.input.setInputProcessor(this);
@@ -73,7 +73,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 		obstacle.generateObstacle(70f);
 
 		DisplayMode disp = Gdx.graphics.getDesktopDisplayMode();
-		Gdx.graphics.setDisplayMode(disp.width, disp.height, true);
+		Gdx.graphics.setDisplayMode(disp.width, disp.height, false);
 
 		shader = new Shader();
 
@@ -123,6 +123,8 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 
 		cam.slide(0, 0, -42.0f * deltaTime);
 		airplane.planecoords.z += 42.0f * deltaTime;
+
+
 
 		if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
 			if (airplane.planerotationZ > -50.0f) {
@@ -281,9 +283,21 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 	@Override
 	public void render () {
 		if(menuscreen){
-			display();
-			menu.display();
+			if(Gdx.input.justTouched()){
+				float x = Gdx.input.getX();
+				float y = Gdx.input.getY();
+				System.out.println("x: " + x);
+				System.out.println("y : " + y);
+				if(menu.startGame(x,y)){
+					menuscreen = false;
+				}
+			}
+			else{
+				display();
+				menu.display();
+			}
 		}
+
 		else{
 			if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
 				if(pause){

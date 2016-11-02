@@ -1,6 +1,7 @@
 package com.ru.tgra.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.graphics.Texture;
 import com.ru.tgra.graphics.ModelMatrix;
 import com.ru.tgra.graphics.Shader;
@@ -39,7 +40,7 @@ public class Menu {
         ModelMatrix.main.addTranslation(2.0f,6.5f,0.0f);
         ModelMatrix.main.addRotationY(180.0f);
         ModelMatrix.main.addRotationX(180.0f);
-        ModelMatrix.main.addScale(4.0f,1.0f,1.0f);
+        ModelMatrix.main.addScale(4.0f,1.0f,1.0f);  
         shader.setModelMatrix(ModelMatrix.main.getMatrix());
         Boxes2D.drawSolidSquare(shader,welcome);
         ModelMatrix.main.popMatrix();
@@ -73,4 +74,10 @@ public class Menu {
         ModelMatrix.main.popMatrix();
     }
 
+    public boolean startGame(float x, float y){
+        if((x < 3 && x > 2) && (y < 3 && y > 2)){
+            return true;
+        }
+        return false;
+    }
 }
