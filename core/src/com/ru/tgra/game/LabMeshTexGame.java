@@ -65,7 +65,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 		pause = false;
 
 		gamescore = 3;
-		menuscreen = true;
+		menuscreen = false;
 
 
 		Gdx.input.setInputProcessor(this);
@@ -220,14 +220,18 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 		airplane.update();
 		if((gates.zpos - airplane.planecoords.z) < 1.0f){
 			if(!gates.collision(airplane.planecoords.x, airplane.planecoords.y)){
-				gamescore --;
+				gamescore--;
+				if(gamescore <= 0){
+					menuscreen = true;
+					gamescore = 3;
+				}
 			}
 			gates.generateRandomGate(airplane.planecoords.z);
 		}
 		if((obstacle.zpos - airplane.planecoords.z) < 1.0f){
-			/*if(!gates.collision(airplane.planecoords.x, airplane.planecoords.y)){
-				gamescore --;
-			}*/
+			if(obstacle.collision(airplane.planecoords.y)){
+				menuscreen = true;
+			}
 			obstacle.generateObstacle(airplane.planecoords.z);
 		}
 		//do all updates to the game
@@ -348,6 +352,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 				input();
 				//put the code inside the update and display methods, depending on the nature of the code
 				update();
+				display();
 				displaygame();
 			}
 		}
