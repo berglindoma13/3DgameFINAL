@@ -247,7 +247,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 		//Gdx.gl.glBlendFunc(GL20.GL_ONE, GL20.GL_ONE);
 		//Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE);
 
-			Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+			//Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 			cam.perspectiveProjection(fov, (float)Gdx.graphics.getWidth() / (float)(2*Gdx.graphics.getHeight()), 0.2f, 2000.0f);
 			shader.setViewMatrix(cam.getViewMatrix());
 			shader.setProjectionMatrix(cam.getProjectionMatrix());

@@ -14,22 +14,62 @@ import com.sun.org.apache.xpath.internal.operations.Mod;
 public class Menu {
     Shader shader;
     Texture welcome;
+    Texture startButton;
+    Texture instructions1;
+    Texture instruction2;
 
     public Menu(Shader shader){
         this.shader = shader;
         Boxes2D.create(this.shader.getVertexPointer());
-        welcome = new Texture(Gdx.files.internal("core/assets/textures/WelcomeToGame.png"));
+        welcome = new Texture(Gdx.files.internal("core/assets/textures/Welcome3.png"));
+        startButton = new Texture(Gdx.files.internal("core/assets/textures/StartButton.png"));
+        instructions1 = new Texture(Gdx.files.internal("core/assets/textures/Instructions.png"));
+        instruction2 = new Texture(Gdx.files.internal("core/assets/textures/InstructionsPause.png"));
     }
 
     public void display(){
+        header();
+        startButton();
+        instructions();
 
+    }
+
+    public void header(){
         ModelMatrix.main.pushMatrix();
-        ModelMatrix.main.addTranslation(0.0f,3.5f,0.0f);
+        ModelMatrix.main.addTranslation(2.0f,6.5f,0.0f);
         ModelMatrix.main.addRotationY(180.0f);
         ModelMatrix.main.addRotationX(180.0f);
-        //ModelMatrix.main.addScale(7.0f,7.0f,5.0f);
+        ModelMatrix.main.addScale(4.0f,1.0f,1.0f);
         shader.setModelMatrix(ModelMatrix.main.getMatrix());
         Boxes2D.drawSolidSquare(shader,welcome);
+        ModelMatrix.main.popMatrix();
+    }
+
+    public void startButton(){
+        ModelMatrix.main.pushMatrix();
+        ModelMatrix.main.addTranslation(2.5f,2.5f,0.0f);
+        ModelMatrix.main.addRotationY(180.0f);
+        ModelMatrix.main.addRotationX(180.0f);
+        shader.setModelMatrix(ModelMatrix.main.getMatrix());
+        Boxes2D.drawSolidSquare(shader,startButton);
+        ModelMatrix.main.popMatrix();
+    }
+
+    public void instructions(){
+        ModelMatrix.main.pushMatrix();
+        ModelMatrix.main.addTranslation(-1.1f,2.5f,0.0f);
+        ModelMatrix.main.addRotationY(180.0f);
+        ModelMatrix.main.addRotationX(180.0f);
+        shader.setModelMatrix(ModelMatrix.main.getMatrix());
+        Boxes2D.drawSolidSquare(shader,instructions1);
+        ModelMatrix.main.popMatrix();
+
+        ModelMatrix.main.pushMatrix();
+        ModelMatrix.main.addTranslation(0.0f,2.5f,0.0f);
+        ModelMatrix.main.addRotationY(180.0f);
+        ModelMatrix.main.addRotationX(180.0f);
+        shader.setModelMatrix(ModelMatrix.main.getMatrix());
+        Boxes2D.drawSolidSquare(shader,instruction2);
         ModelMatrix.main.popMatrix();
     }
 
