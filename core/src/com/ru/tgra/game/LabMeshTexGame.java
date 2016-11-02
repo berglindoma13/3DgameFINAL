@@ -80,9 +80,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 		tex = new Texture(Gdx.files.internal("core/assets/textures/download.jpg"));
 		tex1 = new Texture(Gdx.files.internal("core/assets/textures/phobos2k.png"));
 
-
 		airplaneModel = G3DJModelLoader.loadG3DJFromFile("core/assets/models/germanColored.g3dj");
-
 
 		BoxGraphic.create();
 		SphereGraphic.create();
@@ -107,6 +105,18 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
         menu = new Menu(shader);
 
 		Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	}
+
+	private void restart(){
+		cam = new Camera();
+		gates = new Gates();
+		obstacle = new Obstacle();
+		cam.look(new Point3D(0f, 4f, -3f), new Point3D(0,4,0), new Vector3D(0,1,0));
+		airplane.planecoords.x = cam.eye.x;
+		airplane.planecoords.y = cam.eye.y;
+		airplane.planecoords.z = cam.eye.z;
+		gates.generateRandomGate(airplane.planecoords.z);
+		obstacle.generateObstacle(70f);
 	}
 
 	private void input()
@@ -191,7 +201,8 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 				gamescore--;
 				if(gamescore <= 0){
 					menuscreen = true;
-					gamescore = 3;
+					//gamescore = 3;
+					restart();
 				}
 			}
 			gates.generateRandomGate(airplane.planecoords.z);
@@ -199,6 +210,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 		if((obstacle.zpos - airplane.planecoords.z) < 1.0f){
 			if(obstacle.collision(airplane.planecoords.y)){
 				menuscreen = true;
+				restart();
 			}
 			obstacle.generateObstacle(airplane.planecoords.z);
 		}
