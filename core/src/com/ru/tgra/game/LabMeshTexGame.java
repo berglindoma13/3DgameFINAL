@@ -73,7 +73,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 		obstacle.generateObstacle(70f);
 
 		DisplayMode disp = Gdx.graphics.getDesktopDisplayMode();
-		Gdx.graphics.setDisplayMode(disp.width, disp.height, false);
+		Gdx.graphics.setDisplayMode(disp.width, disp.height, true);
 
 		shader = new Shader();
 
@@ -108,15 +108,11 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 	}
 
 	private void restart(){
-		cam = new Camera();
-		gates = new Gates();
-		obstacle = new Obstacle();
 		cam.look(new Point3D(0f, 4f, -3f), new Point3D(0,4,0), new Vector3D(0,1,0));
-		airplane.planecoords.x = cam.eye.x;
-		airplane.planecoords.y = cam.eye.y;
-		airplane.planecoords.z = cam.eye.z;
+		airplane = new Plane(cam.eye.x,cam.eye.y,cam.eye.z,planedirection);
 		gates.generateRandomGate(airplane.planecoords.z);
 		obstacle.generateObstacle(70f);
+		gamescore = 3;
 	}
 
 	private void input()
@@ -126,6 +122,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 	private void update()
 	{
 
+		System.out.println("gamescore: " + gamescore);
 		if(gamescore == 0){
 			System.out.println("GAME OVER");
 		}
@@ -201,18 +198,24 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 				gamescore--;
 				if(gamescore <= 0){
 					menuscreen = true;
-					//gamescore = 3;
 					restart();
 				}
+				else{
+					gates.generateRandomGate(airplane.planecoords.z);
+
+				}
 			}
-			gates.generateRandomGate(airplane.planecoords.z);
+
 		}
 		if((obstacle.zpos - airplane.planecoords.z) < 1.0f){
 			if(obstacle.collision(airplane.planecoords.y)){
 				menuscreen = true;
 				restart();
 			}
-			obstacle.generateObstacle(airplane.planecoords.z);
+			else{
+				obstacle.generateObstacle(airplane.planecoords.z);
+
+			}
 		}
 	}
 	
