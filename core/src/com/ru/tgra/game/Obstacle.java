@@ -26,23 +26,23 @@ public class Obstacle {
     boolean topwall;
 
     public Obstacle(){
-        top = 57f;
-        bottom = -48f;
+        this.top = 57f;
+        this.bottom = -48f;
     }
 
     public void generateObstacle(float z){
         //Top wall
         topwall = Math.random() < 0.5f;
         if(topwall){
-            ypos = top;
-            xpos = 0f;
-            zpos = z + 140.0f;
+            this.ypos = this.top;
+            this.xpos = 0f;
+            this.zpos = z + 140.0f;
         }
         //Bottom wall
         else {
-            ypos = bottom;
-            xpos = 0f;
-            zpos = z + 140.0f;
+            this.ypos = this.bottom;
+            this.xpos = 0f;
+            this.zpos = z + 140.0f;
         }
 
     }
@@ -50,7 +50,7 @@ public class Obstacle {
     public void display(Shader shader){
         Texture tex = new Texture(Gdx.files.internal("core/assets/textures/dice.png"));
         ModelMatrix.main.pushMatrix();
-        ModelMatrix.main.addTranslation(xpos,ypos,zpos);
+        ModelMatrix.main.addTranslation(this.xpos,this.ypos,this.zpos);
         ModelMatrix.main.addScale(120f,105f,0.2f);
         shader.setModelMatrix(ModelMatrix.main.getMatrix());
         BoxGraphic.drawSolidCube(shader, tex);
@@ -59,8 +59,8 @@ public class Obstacle {
     }
 
     public boolean collision (float y){
-        if(topwall && y > (ypos - 52.5f) || (!topwall && y < (ypos + 52.5f))){
-            System.out.println("Plane y: " + y + " obstacle Y: " + ypos);
+        if(topwall && y > (this.ypos - 52.5f) || (!topwall && y < (this.ypos + 52.5f))){
+            System.out.println("Plane y: " + y + " obstacle Y: " + this.ypos);
             return true;
         }
         return false;
