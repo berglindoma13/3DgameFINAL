@@ -23,6 +23,7 @@ public class Obstacle {
     float xpos;
     float ypos;
     float zpos;
+    boolean topwall;
 
     public Obstacle(){
         top = 57f;
@@ -31,7 +32,8 @@ public class Obstacle {
 
     public void generateObstacle(float z){
         //Top wall
-        if(Math.random() < 0.5f){
+        topwall = Math.random() < 0.5f;
+        if(topwall){
             ypos = top;
             xpos = 0f;
             zpos = z + 140.0f;
@@ -56,8 +58,9 @@ public class Obstacle {
         ModelMatrix.main.popMatrix();
     }
 
-    public boolean collision (float x, float y){
-        if((x < (xpos + 0.5f) && x > (xpos - 0.5f)) && (y > (ypos - 0.5f) && y < (ypos + 0.5f))){
+    public boolean collision (float y){
+        if(topwall && y > (ypos - 52.5f) || (!topwall && y < (ypos + 52.5f))){
+            System.out.println("Plane y: " + y + " obstacle Y: " + ypos);
             return true;
         }
         return false;
