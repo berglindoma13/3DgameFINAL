@@ -54,8 +54,6 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 
 	private int gamescore;
 
-	Random rand = new Random();
-
     Menu menu;
 
 	@Override
@@ -97,7 +95,6 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 		cam.look(new Point3D(0f, 4f, -3f), new Point3D(0,4,0), new Vector3D(0,1,0));
 
 		topCam = new Camera();
-		//orthoCam.orthographicProjection(-5, 5, -5, 5, 3.0f, 100);
 		topCam.perspectiveProjection(30.0f, 1, 3, 100);
 
 		planeRotationz = 0.0f;
@@ -108,17 +105,6 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 		gates.generateRandomGate(airplane.planecoords.z);
 
         menu = new Menu(shader);
-
-		//TODO: try this way to create a texture image
-		/*Pixmap pm = new Pixmap(128, 128, Format.RGBA8888);
-		for(int i = 0; i < pm.getWidth(); i++)
-		{
-			for(int j = 0; j < pm.getWidth(); j++)
-			{
-				pm.drawPixel(i, j, rand.nextInt());
-			}
-		}
-		tex = new Texture(pm);*/
 
 		Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	}
@@ -137,24 +123,6 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 
 		cam.slide(0, 0, -42.0f * deltaTime);
 		airplane.planecoords.z += 42.0f * deltaTime;
-
-
-	/*if(Gdx.input.isKeyPressed(Input.Keys.A)) {
-		cam.slide(-3.0f * deltaTime, 0, 0);
-	}
-	if(Gdx.input.isKeyPressed(Input.Keys.D)) {
-		cam.slide(3.0f * deltaTime, 0, 0);
-	}
-
-	if(Gdx.input.isKeyPressed(Input.Keys.S)) {
-		cam.slide(0, 0, 3.0f * deltaTime);
-	}
-	if(Gdx.input.isKeyPressed(Input.Keys.R)) {
-		cam.slide(0, 3.0f * deltaTime, 0);
-	}
-	if(Gdx.input.isKeyPressed(Input.Keys.F)) {
-		cam.slide(0, -3.0f * deltaTime, 0);
-	}*/
 
 		if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
 			if (airplane.planerotationZ > -50.0f) {
@@ -234,7 +202,6 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 			}
 			obstacle.generateObstacle(airplane.planecoords.z);
 		}
-		//do all updates to the game
 	}
 	
 	private void display()
