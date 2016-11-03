@@ -124,11 +124,6 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 	
 	private void update()
 	{
-
-
-		if(gamescore == 0){
-			System.out.println("GAME OVER");
-		}
 		float deltaTime = Gdx.graphics.getDeltaTime();
 
 		cam.slide(0, 0, -42.0f * deltaTime);
@@ -194,6 +189,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 			}
 		}
 
+		System.out.println("z : " + airplane.planecoords.z);
 
 		airplane.update();
 		if((gates.zpos - airplane.planecoords.z) < 1.0f){
@@ -207,6 +203,9 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 					gates.generateRandomGate(airplane.planecoords.z);
 
 				}
+			}
+			else{
+				gates.generateRandomGate(airplane.planecoords.z);
 			}
 
 		}
@@ -292,7 +291,6 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 		ModelMatrix.main.addTranslation(cam.eye.x-0.43f,cam.eye.y-0.4f,cam.eye.z+0.5f);
 		ModelMatrix.main.addScale(0.003f,0.003f,0.003f);
 		ModelMatrix.main.addRotationX(-90f);
-		//System.out.println("display gamescore: " + gamescore);
 		for(int i = 0; i < gamescore; i++){
 			ModelMatrix.main.addTranslation(25f, 0f, 0f);
 			airplaneModel.draw(shader);
@@ -309,6 +307,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 
 		//draw the environment
 		drawWorld();
+		drawGoal();
 
 	}
 
@@ -316,6 +315,10 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 	@Override
 	public void render () {
 		if(menuscreen){
+			if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+				Gdx.graphics.setDisplayMode(500, 500, false);
+				Gdx.app.exit();
+			}
 			if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
 				menuscreen = false;
 			}
@@ -358,6 +361,16 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 			ModelMatrix.main.popMatrix();
 
 	}
+
+	private void drawGoal(){
+		ModelMatrix.main.pushMatrix();
+		ModelMatrix.main.addTranslation(0.0f,3.5f,1750.0f);
+		//ModelMatrix.main.addScale(1.0f,1.0f,1200.0f);
+		shader.setModelMatrix(ModelMatrix.main.getMatrix());
+		Boxes2D.drawSolidSquare(shader,tex);
+		ModelMatrix.main.popMatrix();
+	}
+
 
 	@Override
 	public boolean keyDown(int keycode) {
