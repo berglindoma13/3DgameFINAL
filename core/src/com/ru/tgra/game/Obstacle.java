@@ -48,7 +48,7 @@ public class Obstacle {
     }
 
     public void display(Shader shader){
-        Texture tex = new Texture(Gdx.files.internal("core/assets/textures/dice.png"));
+        Texture tex = new Texture(Gdx.files.internal("core/assets/textures/bricks.jpg"));
         ModelMatrix.main.pushMatrix();
         ModelMatrix.main.addTranslation(this.xpos,this.ypos,this.zpos);
         ModelMatrix.main.addScale(120f,105f,0.2f);
