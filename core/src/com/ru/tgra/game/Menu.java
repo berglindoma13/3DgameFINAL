@@ -19,6 +19,9 @@ public class Menu {
     Texture startButton;
     Texture instructions1;
     Texture instruction2;
+    Texture startAgain;
+    Texture didWin;
+    public static boolean won;
 
     public Menu(Shader shader){
         this.shader = shader;
@@ -27,12 +30,25 @@ public class Menu {
         startButton = new Texture(Gdx.files.internal("core/assets/textures/PressToStart.png"));
         instructions1 = new Texture(Gdx.files.internal("core/assets/textures/Instructions.png"));
         instruction2 = new Texture(Gdx.files.internal("core/assets/textures/InstructionsPause.png"));
+        startAgain = new Texture(Gdx.files.internal("core/assets/textures/PlayAgain.png"));
+        didWin = new Texture(Gdx.files.internal("core/assets/textures/Congrats.png"));
+        won = false;
     }
 
     public void display(){
         header();
-        startButton();
+        startButton(won);
         instructions();
+        if(won){
+            ModelMatrix.main.pushMatrix();
+            ModelMatrix.main.addTranslation(2.0f,4.5f,0.0f);
+            ModelMatrix.main.addScale(4.0f,1.5f,1.0f);
+            ModelMatrix.main.addRotationY(180.0f);
+            ModelMatrix.main.addRotationX(180.0f);
+            shader.setModelMatrix(ModelMatrix.main.getMatrix());
+            Boxes2D.drawSolidSquare(shader,didWin);
+            ModelMatrix.main.popMatrix();
+        }
 
     }
 
@@ -47,14 +63,26 @@ public class Menu {
         ModelMatrix.main.popMatrix();
     }
 
-    public void startButton(){
-        ModelMatrix.main.pushMatrix();
-        ModelMatrix.main.addTranslation(2.5f,2.5f,0.0f);
-        ModelMatrix.main.addRotationY(180.0f);
-        ModelMatrix.main.addRotationX(180.0f);
-        shader.setModelMatrix(ModelMatrix.main.getMatrix());
-        Boxes2D.drawSolidSquare(shader,startButton);
-        ModelMatrix.main.popMatrix();
+    public void startButton(boolean won){
+        if(won){
+            ModelMatrix.main.pushMatrix();
+            ModelMatrix.main.addTranslation(2.5f,2.5f,0.0f);
+            ModelMatrix.main.addRotationY(180.0f);
+            ModelMatrix.main.addRotationX(180.0f);
+            shader.setModelMatrix(ModelMatrix.main.getMatrix());
+            Boxes2D.drawSolidSquare(shader,startAgain);
+            ModelMatrix.main.popMatrix();
+        }
+        else{
+            ModelMatrix.main.pushMatrix();
+            ModelMatrix.main.addTranslation(2.5f,2.5f,0.0f);
+            ModelMatrix.main.addRotationY(180.0f);
+            ModelMatrix.main.addRotationX(180.0f);
+            shader.setModelMatrix(ModelMatrix.main.getMatrix());
+            Boxes2D.drawSolidSquare(shader,startButton);
+            ModelMatrix.main.popMatrix();
+        }
+
     }
 
     public void instructions(){
@@ -75,10 +103,4 @@ public class Menu {
         ModelMatrix.main.popMatrix();
     }
 
-    public boolean startGame(float x, float y){
-        if((x < 3 && x > 2) && (y < 3 && y > 2)){
-            return true;
-        }
-        return false;
-    }
 }

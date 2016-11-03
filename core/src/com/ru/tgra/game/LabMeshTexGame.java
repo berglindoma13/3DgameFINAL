@@ -79,9 +79,9 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 		tex = new Texture(Gdx.files.internal("core/assets/textures/download.jpg"));
 		tex1 = new Texture(Gdx.files.internal("core/assets/textures/phobos2k.png"));
 		kari = new Texture(Gdx.files.internal("core/assets/textures/kari.jpg"));
-		karipos = new int[20];
+		karipos = new int[40];
 		Random pos = new Random();
-		for (int i = 0; i < 20; i++){
+		for (int i = 0; i < 40; i++){
 			karipos[i] = pos.nextInt(10) - 5;
 		}
 
@@ -227,6 +227,11 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 
 				}
 			}
+		}
+		else if(airplane.planecoords.z > 2250){
+			Menu.won = true;
+			menuscreen = true;
+			restart();
 		}
 
 
@@ -382,9 +387,9 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 		ModelMatrix.main.addRotationY(180.0f);
 		shader.setModelMatrix(ModelMatrix.main.getMatrix());
 		Boxes2D.drawSolidSquare(shader,kari);
-		for(int i = 0; i < 10; i++){
+		for(int i = 0; i < 20; i++){
 			ModelMatrix.main.pushMatrix();
-			ModelMatrix.main.addTranslation(karipos[i],karipos[i+10],80.0f);
+			ModelMatrix.main.addTranslation(karipos[i],karipos[i+10],150.0f);
 			shader.setModelMatrix(ModelMatrix.main.getMatrix());
 			Boxes2D.drawSolidSquare(shader,kari);
 			ModelMatrix.main.popMatrix();
