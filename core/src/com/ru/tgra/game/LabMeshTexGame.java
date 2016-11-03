@@ -121,11 +121,6 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 	
 	private void update()
 	{
-
-		System.out.println("gamescore: " + gamescore);
-		if(gamescore == 0){
-			System.out.println("GAME OVER");
-		}
 		float deltaTime = Gdx.graphics.getDeltaTime();
 
 		cam.slide(0, 0, -42.0f * deltaTime);
