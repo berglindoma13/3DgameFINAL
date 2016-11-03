@@ -1,25 +1,20 @@
 package com.ru.tgra.game;
 
 
-import java.util.Random;
-
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Graphics.DisplayMode;
-import com.badlogic.gdx.assets.loaders.BitmapFontLoader;
 import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.ru.tgra.graphics.*;
 import com.ru.tgra.graphics.Camera;
 import com.ru.tgra.graphics.shapes.*;
 import com.ru.tgra.graphics.shapes.g3djmodel.Boxes2D;
 import com.ru.tgra.graphics.shapes.g3djmodel.G3DJModelLoader;
 import com.ru.tgra.graphics.shapes.g3djmodel.MeshModel;
-import com.sun.org.apache.xpath.internal.operations.Mod;
+
+import java.util.Random;
 
 public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor {
 
@@ -107,6 +102,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 
         menu = new Menu(shader);
 
+
 		Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	}
 
@@ -189,36 +185,40 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 			}
 		}
 
-		System.out.println("z : " + airplane.planecoords.z);
+		System.out.println(airplane.planecoords.z);
 
-		airplane.update();
-		if((gates.zpos - airplane.planecoords.z) < 1.0f){
-			if(!gates.collision(airplane.planecoords.x, airplane.planecoords.y)){
-				gamescore--;
-				if(gamescore <= 0){
+		if(airplane.planecoords.z < 1800){
+			if((gates.zpos - airplane.planecoords.z) < 1.0f){
+				if(!gates.collision(airplane.planecoords.x, airplane.planecoords.y)){
+					gamescore--;
+					if(gamescore <= 0){
+						menuscreen = true;
+						restart();
+					}
+					else{
+						gates.generateRandomGate(airplane.planecoords.z);
+
+					}
+				}
+				else{
+					gates.generateRandomGate(airplane.planecoords.z);
+				}
+
+			}
+			if((obstacle.zpos - airplane.planecoords.z) < 1.0f){
+				if(obstacle.collision(airplane.planecoords.y)){
 					menuscreen = true;
 					restart();
 				}
 				else{
-					gates.generateRandomGate(airplane.planecoords.z);
+					obstacle.generateObstacle(airplane.planecoords.z);
 
 				}
 			}
-			else{
-				gates.generateRandomGate(airplane.planecoords.z);
-			}
-
 		}
-		if((obstacle.zpos - airplane.planecoords.z) < 1.0f){
-			if(obstacle.collision(airplane.planecoords.y)){
-				menuscreen = true;
-				restart();
-			}
-			else{
-				obstacle.generateObstacle(airplane.planecoords.z);
 
-			}
-		}
+
+
 	}
 	
 	private void display()
@@ -236,7 +236,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 		//Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE);
 
 		//Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		cam.perspectiveProjection(fov, (float)Gdx.graphics.getWidth() / (float)(2*Gdx.graphics.getHeight()), 0.2f, 2000.0f);
+		cam.perspectiveProjection(fov, (float)Gdx.graphics.getWidth() / (float)(2*Gdx.graphics.getHeight()), 0.2f, 2800.0f);
 		shader.setViewMatrix(cam.getViewMatrix());
 		shader.setProjectionMatrix(cam.getProjectionMatrix());
 		shader.setEyePosition(cam.eye.x, cam.eye.y, cam.eye.z, 1.0f);
@@ -307,7 +307,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 
 		//draw the environment
 		drawWorld();
-		drawGoal();
+		drawKari();
 
 	}
 
@@ -354,7 +354,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 	private void drawWorld(){
 
 			ModelMatrix.main.pushMatrix();
-			ModelMatrix.main.addTranslation(0.0f,4.0f,600.0f);
+			ModelMatrix.main.addTranslation(0.0f,4.0f,800.0f);
 			ModelMatrix.main.addScale(120.0f,120.0f,1200.0f);
 			shader.setModelMatrix(ModelMatrix.main.getMatrix());
 			SphereGraphic.drawSolidSphere(shader, tex);
@@ -362,13 +362,18 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 
 	}
 
-	private void drawGoal(){
+	private void drawKari(){
+		Random pos = new Random();
+
 		ModelMatrix.main.pushMatrix();
-		ModelMatrix.main.addTranslation(0.0f,3.5f,1750.0f);
-		//ModelMatrix.main.addScale(1.0f,1.0f,1200.0f);
+		ModelMatrix.main.addTranslation(0.0f,3.5f,2100.0f);
+		ModelMatrix.main.addScale(8.0f,8.0f,1.0f);
 		shader.setModelMatrix(ModelMatrix.main.getMatrix());
 		Boxes2D.drawSolidSquare(shader,tex);
 		ModelMatrix.main.popMatrix();
+
+
+
 	}
 
 

@@ -33,15 +33,6 @@ public class Plane {
         planerotationX += angle;
     }
 
-    public void direction(Vector3D dir){
-        planedirection = dir;
-    }
-    public void update(){
-        planecoords.x += planedirection.x;
-        planecoords.y += planedirection.y;
-        planecoords.z += planedirection.z;
-
-    }
     public Point3D getPlanecoords(){
         return planecoords;
     }
