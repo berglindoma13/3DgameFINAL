@@ -54,7 +54,6 @@ public class Obstacle {
         ModelMatrix.main.addScale(120f,105f,0.2f);
         shader.setModelMatrix(ModelMatrix.main.getMatrix());
         BoxGraphic.drawSolidCube(shader, tex);
-        //GateModel.draw(shader);
         ModelMatrix.main.popMatrix();
     }
 
