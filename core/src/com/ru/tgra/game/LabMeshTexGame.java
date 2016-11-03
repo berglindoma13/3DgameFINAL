@@ -45,6 +45,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 	private float planeRotationy;
 	private Vector3D planedirection;
 	private Plane airplane;
+	private Plane airplaneLife;
 
 	private boolean right;
 	private boolean left;
@@ -100,6 +101,8 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 		planedirection = new Vector3D(0.0f,0.0f,0.0f);
 
 		airplane = new Plane(cam.eye.x,cam.eye.y,cam.eye.z,planedirection);
+		airplaneLife = new Plane(cam.eye.x,cam.eye.y,cam.eye.z,planedirection);
+
 		gates.generateRandomGate(airplane.planecoords.z);
 
         menu = new Menu(shader);
@@ -277,6 +280,21 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 		airplane.display(shader);
 		airplaneModel.draw(shader);
 		ModelMatrix.main.popMatrix();
+
+
+		//lives
+		ModelMatrix.main.pushMatrix();
+		ModelMatrix.main.addTranslation(cam.eye.x-0.43f,cam.eye.y-0.4f,cam.eye.z+0.5f);
+		ModelMatrix.main.addScale(0.003f,0.003f,0.003f);
+		ModelMatrix.main.addRotationX(-90f);
+		//System.out.println("display gamescore: " + gamescore);
+		for(int i = 0; i < gamescore; i++){
+			ModelMatrix.main.addTranslation(25f, 0f, 0f);
+			airplaneModel.draw(shader);
+			shader.setModelMatrix(ModelMatrix.main.getMatrix());
+		}
+		ModelMatrix.main.popMatrix();
+
 
 		//draw the rings
 		gates.display(shader);
