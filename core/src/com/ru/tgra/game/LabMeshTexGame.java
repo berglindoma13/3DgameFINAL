@@ -7,6 +7,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Graphics.DisplayMode;
 import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g3d.Model;
 import com.ru.tgra.graphics.*;
 import com.ru.tgra.graphics.Camera;
 import com.ru.tgra.graphics.shapes.*;
@@ -34,7 +35,7 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 
 	private Texture tex;
 	private Texture tex1;
-    private Texture welcome;
+    private Texture kari;
 
 	private float planeRotationz;
 	private float planeRotationy;
@@ -49,6 +50,8 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 	private boolean menuscreen;
 
 	private int gamescore;
+
+	int karipos[];
 
     Menu menu;
 
@@ -75,6 +78,12 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 
 		tex = new Texture(Gdx.files.internal("core/assets/textures/download.jpg"));
 		tex1 = new Texture(Gdx.files.internal("core/assets/textures/phobos2k.png"));
+		kari = new Texture(Gdx.files.internal("core/assets/textures/kari.jpg"));
+		karipos = new int[20];
+		Random pos = new Random();
+		for (int i = 0; i < 20; i++){
+			karipos[i] = pos.nextInt(10) - 5;
+		}
 
 		airplaneModel = G3DJModelLoader.loadG3DJFromFile("core/assets/models/germanColored.g3dj");
 
@@ -185,7 +194,10 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 			}
 		}
 
-		System.out.println(airplane.planecoords.z);
+		System.out.println("x : " + airplane.planecoords.x);
+		System.out.println("y : " + airplane.planecoords.y);
+		System.out.println("z : " + airplane.planecoords.z);
+
 
 		if(airplane.planecoords.z < 1800){
 			if((gates.zpos - airplane.planecoords.z) < 1.0f){
@@ -363,17 +375,22 @@ public class LabMeshTexGame extends ApplicationAdapter implements InputProcessor
 	}
 
 	private void drawKari(){
-		Random pos = new Random();
-
 		ModelMatrix.main.pushMatrix();
-		ModelMatrix.main.addTranslation(0.0f,3.5f,2100.0f);
-		ModelMatrix.main.addScale(8.0f,8.0f,1.0f);
+		ModelMatrix.main.addTranslation(10.0f,13.5f,2100.0f);
+		ModelMatrix.main.addScale(20.0f,20.0f,1.0f);
+		ModelMatrix.main.addRotationX(180.0f);
+		ModelMatrix.main.addRotationY(180.0f);
 		shader.setModelMatrix(ModelMatrix.main.getMatrix());
-		Boxes2D.drawSolidSquare(shader,tex);
+		Boxes2D.drawSolidSquare(shader,kari);
+		for(int i = 0; i < 10; i++){
+			ModelMatrix.main.pushMatrix();
+			ModelMatrix.main.addTranslation(karipos[i],karipos[i+10],80.0f);
+			shader.setModelMatrix(ModelMatrix.main.getMatrix());
+			Boxes2D.drawSolidSquare(shader,kari);
+			ModelMatrix.main.popMatrix();
+
+		}
 		ModelMatrix.main.popMatrix();
-
-
-
 	}
 
 

@@ -24,7 +24,7 @@ public class Menu {
         this.shader = shader;
         Boxes2D.create(this.shader.getVertexPointer());
         welcome = new Texture(Gdx.files.internal("core/assets/textures/Welcome3.png"));
-        startButton = new Texture(Gdx.files.internal("core/assets/textures/StartButton.png"));
+        startButton = new Texture(Gdx.files.internal("core/assets/textures/PressToStart.png"));
         instructions1 = new Texture(Gdx.files.internal("core/assets/textures/Instructions.png"));
         instruction2 = new Texture(Gdx.files.internal("core/assets/textures/InstructionsPause.png"));
     }
